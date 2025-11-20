@@ -45,6 +45,9 @@ def init_app(app):
                 v1 = list(map(float, v1))
                 v2 = list(map(float, v2))
 
+                if operacao == 'produto_vetorial' and len(v1) != 3:
+                    return jsonify({'erro': 'O produto vetorial requer vetores de 3 dimensões (R3).'}), 400
+
             # Operações com UM vetor
             elif operacao in ['norma', 'unitario']:
                 v1 = data.get('vetor1')
@@ -69,6 +72,9 @@ def init_app(app):
                 v1 = list(map(float, v1))
                 v2 = list(map(float, v2))
                 v3 = list(map(float, v3))
+
+                if len(v1) != 3 or len(v2) != 3 or len(v3) != 3:
+                    return jsonify({'erro': 'Para calcular o plano, os pontos devem ser do R3 (3 coordenadas).'}), 400
 
             # Operação: GRAM-SCHMIDT
             elif operacao == 'gram_schmidt':
@@ -110,3 +116,4 @@ def init_app(app):
 
         except Exception as e:
             return jsonify({'erro': f'Erro interno: {str(e)}'}), 400
+
